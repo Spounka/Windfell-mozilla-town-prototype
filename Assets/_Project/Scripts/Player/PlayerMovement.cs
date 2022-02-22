@@ -1,8 +1,6 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-namespace Spounka
+namespace Spounka.Player
 {
     public class PlayerMovement : MonoBehaviour
     {
