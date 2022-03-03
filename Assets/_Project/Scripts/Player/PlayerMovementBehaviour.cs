@@ -8,22 +8,31 @@ namespace Spounka.Player
     {
         [SerializeField] private float _movementSpeed = 0;
 
-        private PlayerMovement _playerMovement;
-        private IInput _input;
+        private Vector2 _input = Vector2.zero;
+        private Rigidbody2D _rb;
 
-        private void Awake()
+        private void Start()
         {
-            _playerMovement = new PlayerMovement(GetComponent<Rigidbody2D>());
+            _rb = GetComponent<Rigidbody2D>();
+        }
+
+        private void Update()
+        {
+            _input.x = Input.GetAxisRaw("Horizontal");
+            _input.y = Input.GetAxisRaw("Vertical");
         }
 
         private void FixedUpdate()
         {
-            _playerMovement.Move(_input.GetAxis, _movementSpeed, Time.fixedDeltaTime);
+            Move();
         }
-    }
 
-    public interface IInput
-    {
-        public Vector2 GetAxis { get; }
+        private void Move()
+        {
+            var direction = _input.normalized;
+            var velocity = direction * _movementSpeed;
+
+            _rb.MovePosition(_rb.position + (velocity * Time.fixedDeltaTime));
+        }
     }
 }
